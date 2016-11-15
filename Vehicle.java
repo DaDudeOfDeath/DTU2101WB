@@ -34,7 +34,7 @@ public abstract class Vehicle {
             } else {
                 if (Math.random() < 0.001) {
                     return 1;
-                } else if (getPosition().y == 0 + size + speed) {
+                } else if (getPosition().y <= 0 + size + speed) {
                     return 1;
                 } else {
                     return 2;
@@ -47,7 +47,7 @@ public abstract class Vehicle {
             } else {
                 if (Math.random() < 0.001) {
                     return 0;
-                } else if (getPosition().x == Simulation.TRACKSIZE - size - speed) {
+                } else if (getPosition().x >= Simulation.TRACKSIZE - (size + speed)) {
                     return 0;
                 } else {
                     return 1;
@@ -60,7 +60,7 @@ public abstract class Vehicle {
             } else {
                 if (Math.random() < 0.001) {
                     return 3;
-                } else if (getPosition().y == Simulation.TRACKSIZE - size - speed) {
+                } else if (getPosition().y >= Simulation.TRACKSIZE - (size + speed)) {
                     return 3;
                 } else {
                     return 0;
@@ -73,7 +73,7 @@ public abstract class Vehicle {
             } else {
                 if (Math.random() < 0.001) {
                     return 2;
-                } else if (getPosition().x == 0  + size + speed) {
+                } else if (getPosition().x <= 0  + (size + speed)) {
                     return 2;
                 } else {
                     return 3;
