@@ -14,18 +14,15 @@ public class Truck extends Vehicle{
     }
 
     public void move() {
-    //	if (Math.random() < 0.1) {
-    	//	speed = 1.1;
-    	//}
         direction = direction(direction, speed);
         if (direction == 1) {
-            position.setLocation(position.x+=speed, position.y);
+            position.translate(this.speed,0);
         } else if (direction == 0) {
-            position.setLocation(position.x, position.y+=speed);
+            position.translate(0,this.speed);
         } else if (direction == 3) {
-            position.setLocation(position.x-=speed, position.y);
+            position.translate(-this.speed,0);
         } else if (direction == 2) {
-            position.setLocation(position.x, position.y-=speed);
+            position.translate(0,-this.speed);
         }
     }
 }

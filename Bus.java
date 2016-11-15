@@ -14,13 +14,23 @@ public class Bus extends Vehicle {
     public void move() {
         direction = direction(direction, speed);
         if (direction == 1) {
-            position.setLocation(position.x+=this.speed + 1, position.y);
+            position.translate(calcSpeed(),0);
         } else if (direction == 0) {
-            position.setLocation(position.x, position.y+=this.speed);
+            position.translate(0,calcSpeed());
         } else if (direction == 3) {
-            position.setLocation(position.x-=this.speed, position.y);
+            position.translate(-calcSpeed(),0);
         } else if (direction == 2) {
-            position.setLocation(position.x, position.y-=this.speed);
+            position.translate(0,-calcSpeed());
+        }
+    }
+    public int calcSpeed()
+    {
+        if (position.getY()<=Simulation.TRACKWIDTH)
+        {
+            return speed = 2;
+        }
+        else{
+            return speed = 1;
         }
     }
   
