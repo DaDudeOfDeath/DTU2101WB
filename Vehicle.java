@@ -6,12 +6,12 @@ import java.util.Random;
  */
 public abstract class Vehicle {
     Random rand = new Random();
-    private Point positionC = new Point(rand.nextInt((Simulation.TRACKWIDTH-1)+1)+1,rand.nextInt((Simulation.TRACKWIDTH-1)+1)+1);
+    private Point position = new Point(rand.nextInt((Simulation.TRACKWIDTH-1)+1)+1,rand.nextInt((Simulation.TRACKWIDTH-1)+1)+1);
     Color vehicleC;
     double size;
     int direction;
     int speed;
-    double turnChance = 0.0001;
+    double turnChance = 0.1;
 
     public Vehicle() {
     }
@@ -19,7 +19,7 @@ public abstract class Vehicle {
     public abstract void move();
     public Point getPosition()
     {
-        return positionC;
+        return position;
     }
     public Color getColor() {
         return vehicleC;
@@ -83,5 +83,6 @@ public abstract class Vehicle {
         }
         return d;
     }
+
 
 }
