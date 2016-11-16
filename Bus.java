@@ -84,4 +84,5 @@ public class Bus extends Vehicle {
     public Color getColor() {
         return vehicleC;
     }
+
 }

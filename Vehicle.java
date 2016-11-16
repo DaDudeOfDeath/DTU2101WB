@@ -6,14 +6,16 @@ import java.util.Random;
  */
 public abstract class Vehicle {
     Random rand = new Random();
-    private Point position = new Point(rand.nextInt((Simulation.TRACKWIDTH-1)+1)+1,rand.nextInt((Simulation.TRACKWIDTH-1)+1)+1);
+    private Point position = new Point(); // START POSITION
     Color vehicleC;
     double size;
     int direction;
     int speed;
     double turnChance = 0.1;
+    boolean validLoc = false;
 
     public Vehicle() {
+        position = setValidPosition();
     }
 
     public abstract void move();
@@ -29,52 +31,52 @@ public abstract class Vehicle {
         return size;
     }
     public int direction(int d, int speed) {
-        if (getPosition().x <= Simulation.TRACKWIDTH + Simulation.INNERSIZE && getPosition().y <= Simulation.TRACKWIDTH - size) {
+        if (position.getX() <= Simulation.TRACKWIDTH + Simulation.INNERSIZE && position.getY() <= Simulation.TRACKWIDTH - size) {
             if (direction == 1) {
                 return 1;
             } else {
                 if (Math.random() < turnChance) {
                     return 1;
-                } else if (getPosition().y <= 0 + size) {
+                } else if (position.getY() <= 0 + size) {
                     return 1;
                 } else {
                     return 2;
                 }
             }
-        } else if (getPosition().x >= Simulation.TRACKSIZE - Simulation.TRACKWIDTH + size &&
-                getPosition().y <= Simulation.TRACKWIDTH + Simulation.INNERSIZE) {
+        } else if (position.getX() >= Simulation.TRACKSIZE - Simulation.TRACKWIDTH + size &&
+                position.getY() <= Simulation.TRACKWIDTH + Simulation.INNERSIZE) {
             if (direction == 0) {
                 return 0;
             } else {
                 if (Math.random() < turnChance) {
                     return 0;
-                } else if (getPosition().x >= Simulation.TRACKSIZE - (size)) {
+                } else if (position.getX() >= Simulation.TRACKSIZE - size) {
                     return 0;
                 } else {
                     return 1;
                 }
             }
-        } else if (getPosition().x >= Simulation.TRACKSIZE - (Simulation.TRACKWIDTH + Simulation.INNERSIZE) &&
-                getPosition().y >= Simulation.TRACKSIZE - Simulation.TRACKWIDTH + size) {
+        } else if (position.getX() >= Simulation.TRACKSIZE - (Simulation.TRACKWIDTH + Simulation.INNERSIZE) &&
+                position.getY() >= Simulation.TRACKSIZE - Simulation.TRACKWIDTH + size) {
             if (direction == 3) {
                 return 3;
             } else {
                 if (Math.random() < turnChance) {
                     return 3;
-                } else if (getPosition().y >= Simulation.TRACKSIZE - (size)) {
+                } else if (position.getY() >= Simulation.TRACKSIZE - size) {
                     return 3;
                 } else {
                     return 0;
                 }
             }
-        } else if(getPosition().x <= Simulation.TRACKWIDTH - size &&
-                getPosition().y >= Simulation.TRACKSIZE - (Simulation.TRACKWIDTH + Simulation.INNERSIZE) ) {
+        } else if(position.getX() <= Simulation.TRACKWIDTH - size &&
+                position.getY() >= Simulation.TRACKSIZE - (Simulation.TRACKWIDTH + Simulation.INNERSIZE) ) {
             if (direction == 2) {
                 return 2;
             } else {
                 if (Math.random() < turnChance) {
                     return 2;
-                } else if (getPosition().x <= 0  + (size)) {
+                } else if (position.getX() <= 0 + size) {
                     return 2;
                 } else {
                     return 3;
@@ -83,6 +85,34 @@ public abstract class Vehicle {
         }
         return d;
     }
-
-
+    // SÆTTER START POSITION TIL RANDOM
+    public Point setValidPosition() {
+        while (validLoc == false) {
+        /*    getPosition().setLocation((getSize()+ Math.random()*Simulation.TRACKSIZE-2*getSize()), (getSize()+Math.random()*Simulation.TRACKSIZE-2*getSize()  ));
+            if (((getPosition().getX() <= Simulation.TRACKWIDTH - getSize()) ||
+                    (getPosition().getX() >= 2*Simulation.TRACKWIDTH+getSize() && getPosition().getX() <= Simulation.TRACKSIZE-getSize())))
+            {
+                if ((getPosition().getY() <= Simulation.TRACKWIDTH - getSize()) ||
+                        (getPosition().getY() >= 2*Simulation.TRACKWIDTH+getSize() && getPosition().getY() <= Simulation.TRACKSIZE-getSize()))
+                {
+                    validLoc = true;
+                }
+            }
+        } */
+            Point pos = getPosition();
+            pos.setLocation(Math.random() * (Simulation.TRACKSIZE - getSize()), Math.random() * (Simulation.TRACKSIZE - getSize()));
+            if (pos.getX() < getSize()+1 && pos.getY() < getSize() + 1) {
+                pos.setLocation(getSize() + 1, getSize() + 1);
+            } else if (pos.getX() > Simulation.TRACKWIDTH - (getSize()+1) && pos.getY() > Simulation.TRACKSIZE - (getSize() + 1)) {
+                pos.setLocation((int) -getSize(), (int)-getSize());
+            //} else if (pos.getY() < getSize()+1) {
+            //    pos.translate(0, (int) size);
+            //} else if (pos.getY() > Simulation.TRACKSIZE - (getSize()+1)) {
+            //    pos.translate(0, (int) -size);
+            } else {
+                validLoc = true;
+            }
+        }
+        return position;
+    }
 }
